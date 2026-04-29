@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 💚</title>
+  <style>
+    /* Body & Canvas setup */
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      color: #00ff9f;
+      font-family: 'Courier New', monospace;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* Birthday message */
+    .message {
+      position: absolute;
+      z-index: 1;
+      color: #00ffcc;
+      text-align: center;
+      padding: 1rem;
+      max-width: 90%;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .message h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 0 0 15px #00ffaa, 0 0 30px #00ff99;
+      margin-bottom: 0.5rem;
+    }
+
+    .message p {
+      font-size: 1.1rem;
+      color: #ccffee;
+      text-shadow: 0 0 10px #00ffcc;
+      line-height: 1.6;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .message h1 {
+        font-size: 2rem;
+      }
+      .message p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .message h1 {
+        font-size: 1.8rem;
+      }
+      .message p {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+  <div class="message">
+    <h1>🎉 Happy Birthday 💚</h1>
+    <p>
+      You’re not just a friend... you’re someone truly special.<br>
+      Someone who makes every moment brighter and every laugh softer.<br>
+      Here’s to another beautiful year of your journey — keep shining, 🌸
+    </p>
+  </div>
+
+  <script>
+    // Matrix effect with a Person's name included
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    // Resize canvas to fit window
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()SANHA";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+      // Fading background to create trail effect
+      ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Green classic text
+      ctx.fillStyle = "#00ff99";
+      ctx.font = fontSize + "px 'Courier New'";
+
+      // Draw the letters
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        // Random reset
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+
+    // Resize handler for responsiveness
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
